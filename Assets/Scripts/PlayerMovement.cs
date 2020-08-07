@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+[RequireComponent(typeof(GridMovement))]
 public class PlayerMovement : MonoBehaviour {
-    GameObject Grid;
-    int GridX;
-    int GridY;
+    GridMovement gridMovement;
+
 
     public event EventHandler OnPlayerMove;
 
     // Start is called before the first frame update
     void Start() {
-        Grid = GameObject.FindGameObjectWithTag("Grid");
+        gridMovement = gameObject.GetComponent<GridMovement>();
     }
 
     // Update is called once per frame
@@ -22,8 +22,11 @@ public class PlayerMovement : MonoBehaviour {
             Move();
             OnPlayerMove?.Invoke(this, EventArgs.Empty); //broadcasts 'turn' to all AI for their motions
         }
-        transform.position = new Vector3(GridX, GridY);
             
+    }
+
+    public void Die() {
+        Destroy(gameObject);
     }
 
     private void Move() {
@@ -42,19 +45,19 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     private void MoveUp() {
-        GridY++;    
+        gridMovement.y++;    
     }
 
     private void MoveDown() {
-        GridY--;
+        gridMovement.y--;
     }
 
     private void MoveLeft() {
-        GridX--;
+        gridMovement.x--;
     }
 
     private void MoveRight() {
-        GridX++;
+        gridMovement.x++;
     }
 
     private int GetNumberOfDirectionKeysPressed() {

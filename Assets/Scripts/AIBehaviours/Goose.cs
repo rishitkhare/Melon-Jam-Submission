@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+[RequireComponent(typeof(AudioSource))]
 public class Goose : AIMovement {
 
     int turnNumber = 0;
@@ -19,16 +20,21 @@ public class Goose : AIMovement {
         }
         else {
             if (direction == 0) {
-                MoveUp();
+                grid.MoveUp();
             } else if (direction == 1) {
-                MoveDown();
+                grid.MoveDown();
             } else if (direction == 2) {
-                MoveRight();
+                grid.MoveRight();
             } else { // direction == 3
-                MoveLeft();
+                grid.MoveLeft();
             }
         }
         turnNumber++;
 
+    }
+
+    override
+    public void SubclassStart() {
+        honk = gameObject.GetComponent<AudioSource>();
     }
 }
