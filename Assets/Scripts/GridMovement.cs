@@ -2,20 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(BoxCollider2D))]
 public class GridMovement : MonoBehaviour
 {
-    GameObject gridObject;
     public int x;
     public int y;
+    GridLayout gridLayout;
+    GameObject wallTilemap;
+    Collider2D wallCollider;
+    GameManager manager;
 
     void Start() {
-        gridObject = GameObject.FindGameObjectWithTag("Grid");
         x = (int)transform.position.x;
         y = (int)transform.position.y;
+        gridLayout = transform.parent.GetComponentInParent<GridLayout>();
+        wallTilemap = GameObject.FindGameObjectWithTag("Wall");
+        manager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
+        wallCollider = manager.GetWallCollider();
     }
 
     void Update() {
-        transform.position = new Vector2(x, y);
+        //takes the grid position and updates based on the parent grid object
+        transform.position = gridLayout.CellToWorld(new Vector3Int(x, y, 0));
     }
 
     //implements Pythagorean theorem to calculate positive distance between two grid entities
@@ -39,44 +47,38 @@ public class GridMovement : MonoBehaviour
     }
 
     public void MoveY(int amount) {
-        //Debug.Log(isValidMovement(x, y + amount));
-        if (isValidMovement(x, y + amount)) {
+        if (IsValidMovement(x, y + amount)) {
             y += amount;
         }
     }
 
     public void MoveX(int amount) {
-        if (isValidMovement(x + amount, y)) {
+        if (IsValidMovement(x + amount, y)) {
             x += amount;
         }
     }
 
     //checks if current space is not occupied. Is only called from the Move() methods
-    private bool isValidMovement(int newX, int newY) {
-
+    private bool IsValidMovement(int newX, int newY) {
+        
         //check enemy collisions
-        GameObject[] allEntities = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().GetEnemyList();
-        bool collided = checkArrayCollision(allEntities, newX, newY);
-        //DebugGOList(allEntities);
-        if(gameObject.tag.Equals("Enemy")){
-            Debug.Log(string.Format("{0} EnemyCollisionCheck: {1}", gameObject.name, collided));
-        }
+        GameObject[] allEntities = manager.GetEnemyList();
+        bool collided = CheckArrayCollision(allEntities, newX, newY);
 
         //check player collisions
-        allEntities = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().GetPlayerList();
+        allEntities = manager.GetPlayerList();
 
-        if (gameObject.tag.Equals("Enemy")) {
-            Debug.Log(string.Format("{0} PlayerCollisionCheck {1}", gameObject.name, checkArrayCollision(allEntities, newX, newY)));
-        }
-        collided = collided || checkArrayCollision(allEntities, newX, newY);
+        collided = collided || CheckArrayCollision(allEntities, newX, newY);
 
+        //check wall collisions
+        collided = collided || CheckWallCollision(gridLayout.CellToWorld(new Vector3Int(newX, newY, 0)));
 
-        //if collided is true, return false, if 
+        //if collided is true motion is not valid (and vice versa)
         return !collided;
     }
 
     //returns true if the given objects are colliding
-    private bool checkArrayCollision(GameObject[] allEntities, float newX, float newY) {
+    private bool CheckArrayCollision(GameObject[] allEntities, float newX, float newY) {
         foreach (GameObject entity in allEntities) {
             if(entity != gameObject) {
                 GridMovement other = entity.GetComponent<GridMovement>();
@@ -90,11 +92,12 @@ public class GridMovement : MonoBehaviour
         return false;
     }
 
-    private void DebugGOList(GameObject[] debugList){
-        Debug.Log("Debug List:");
-        foreach(GameObject thing in debugList) {
-            Debug.Log(string.Format("{0} scans {1} at X:{2} Y:{3}", gameObject.name, thing.name, thing.GetComponent<GridMovement>().x, thing.GetComponent<GridMovement>().y));
-;        }
+    private bool CheckWallCollision(Vector2 point) {
+        //check if the given point is inside a wall
+        Debug.DrawLine(transform.position, point);
+        bool answer = wallCollider.OverlapPoint(point);
+        Debug.Log(answer);
+        return answer;
     }
 
     

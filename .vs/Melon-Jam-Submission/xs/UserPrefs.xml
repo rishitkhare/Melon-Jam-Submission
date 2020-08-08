@@ -1,17 +1,17 @@
 ﻿<Properties StartupConfiguration="{F0B7CCAE-76CE-7AEF-762E-C56731F0218F}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/GridMovement.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/GameManager.cs">
     <Files>
       <File FileName="Assets/Scripts/PlayerMovement.cs" Line="28" Column="24" />
       <File FileName="Assets/Scripts/AIBehaviours/Generic.cs" Line="25" Column="70" />
       <File FileName="Assets/Scripts/AIMovement.cs" Line="27" Column="1" />
-      <File FileName="Assets/Scripts/GridMovement.cs" Line="66" Column="118" />
-      <File FileName="Assets/Scripts/AIBehaviours/Goose.cs" Line="18" Column="13" />
-      <File FileName="Assets/Scripts/GameManager.cs" Line="16" Column="26" />
+      <File FileName="Assets/Scripts/AIBehaviours/Goose.cs" Line="17" Column="49" />
+      <File FileName="Assets/Scripts/GameManager.cs" Line="28" Column="12" />
+      <File FileName="Assets/Scripts/GridMovement.cs" Line="12" Column="5" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="a6f62484-cea5-4a31-af40-1728a513fc90" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="a2636e87-0e87-48dd-b216-1e83c7ff3abe" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

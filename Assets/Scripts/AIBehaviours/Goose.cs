@@ -15,7 +15,6 @@ public class Goose : AIMovement {
         if (turnNumber % 2 == 0) {
             //telegraph
             direction = randomGenerator.Next(4);
-            Debug.Log(direction);
             honk.Play();
         }
         else {
