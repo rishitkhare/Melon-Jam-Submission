@@ -7,7 +7,7 @@ using System;
 public class PlayerMovement : MonoBehaviour {
     GridMovement gridMovement;
 
-
+    //Event for each turn
     public event EventHandler OnPlayerMove;
 
     // Start is called before the first frame update
@@ -31,33 +31,17 @@ public class PlayerMovement : MonoBehaviour {
 
     private void Move() {
         if (Input.GetKeyDown("up")) {
-            MoveUp();
+            gridMovement.MoveY(1);
         }
         if (Input.GetKeyDown("down")) {
-            MoveDown();
+            gridMovement.MoveY(-1);
         }
         if (Input.GetKeyDown("left")) {
-            MoveLeft();
+            gridMovement.MoveX(-1);
         }
         if (Input.GetKeyDown("right")) {
-            MoveRight();    
+            gridMovement.MoveX(1);    
         }
-    }
-
-    private void MoveUp() {
-        gridMovement.y++;    
-    }
-
-    private void MoveDown() {
-        gridMovement.y--;
-    }
-
-    private void MoveLeft() {
-        gridMovement.x--;
-    }
-
-    private void MoveRight() {
-        gridMovement.x++;
     }
 
     private int GetNumberOfDirectionKeysPressed() {

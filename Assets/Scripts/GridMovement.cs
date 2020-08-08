@@ -38,20 +38,64 @@ public class GridMovement : MonoBehaviour
         }
     }
 
-    public void MoveUp() {
-        y++;
+    public void MoveY(int amount) {
+        //Debug.Log(isValidMovement(x, y + amount));
+        if (isValidMovement(x, y + amount)) {
+            y += amount;
+        }
     }
 
-    public void MoveDown() {
-        y--;
+    public void MoveX(int amount) {
+        if (isValidMovement(x + amount, y)) {
+            x += amount;
+        }
     }
 
-    public void MoveRight() {
-        x++;
+    //checks if current space is not occupied. Is only called from the Move() methods
+    private bool isValidMovement(int newX, int newY) {
+
+        //check enemy collisions
+        GameObject[] allEntities = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().GetEnemyList();
+        bool collided = checkArrayCollision(allEntities, newX, newY);
+        //DebugGOList(allEntities);
+        if(gameObject.tag.Equals("Enemy")){
+            Debug.Log(string.Format("{0} EnemyCollisionCheck: {1}", gameObject.name, collided));
+        }
+
+        //check player collisions
+        allEntities = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().GetPlayerList();
+
+        if (gameObject.tag.Equals("Enemy")) {
+            Debug.Log(string.Format("{0} PlayerCollisionCheck {1}", gameObject.name, checkArrayCollision(allEntities, newX, newY)));
+        }
+        collided = collided || checkArrayCollision(allEntities, newX, newY);
+
+
+        //if collided is true, return false, if 
+        return !collided;
     }
 
-    public void MoveLeft() {
-        x--;
+    //returns true if the given objects are colliding
+    private bool checkArrayCollision(GameObject[] allEntities, float newX, float newY) {
+        foreach (GameObject entity in allEntities) {
+            if(entity != gameObject) {
+                GridMovement other = entity.GetComponent<GridMovement>();
+
+                if (other.x == newX && other.y == newY) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
+    private void DebugGOList(GameObject[] debugList){
+        Debug.Log("Debug List:");
+        foreach(GameObject thing in debugList) {
+            Debug.Log(string.Format("{0} scans {1} at X:{2} Y:{3}", gameObject.name, thing.name, thing.GetComponent<GridMovement>().x, thing.GetComponent<GridMovement>().y));
+;        }
+    }
+
+    
 }

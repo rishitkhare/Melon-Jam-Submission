@@ -20,13 +20,13 @@ public class Goose : AIMovement {
         }
         else {
             if (direction == 0) {
-                grid.MoveUp();
+                grid.MoveY(1);
             } else if (direction == 1) {
-                grid.MoveDown();
+                grid.MoveY(-1);
             } else if (direction == 2) {
-                grid.MoveRight();
+                grid.MoveX(1);
             } else { // direction == 3
-                grid.MoveLeft();
+                grid.MoveX(-1);
             }
         }
         turnNumber++;

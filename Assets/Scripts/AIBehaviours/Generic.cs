@@ -23,17 +23,18 @@ public class Generic : AIMovement
 
     override
     public void AIMovement_OnPlayerMove(object sender, EventArgs e) {
+
         if (moveSetting == 0) {
-            grid.MoveUp();
+            grid.MoveY(1);
         }
         else if (moveSetting == 1) {
-            grid.MoveDown();
+            grid.MoveY(-1);
         }
         else if (moveSetting == 2) {
-            grid.MoveRight();
+            grid.MoveX(1);
         }
         else if (moveSetting == 3) {
-            grid.MoveLeft();
+            grid.MoveX(-1);
         }
     }
 }
