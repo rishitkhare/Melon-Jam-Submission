@@ -10,10 +10,11 @@ public class PlayerMovement : MonoBehaviour {
     GameManager manager;
     EntityTag entityTag;
 
-    //private Vector2 direction;
+    private Vector2 procrastinatorStoredMove;
 
     // Start is called before the first frame update
     void Start() {
+        procrastinatorStoredMove = Vector2.zero;
         gridMovement = gameObject.GetComponent<GridMovement>();
         manager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
         entityTag = gameObject.GetComponent<EntityTag>();
@@ -87,7 +88,7 @@ public class PlayerMovement : MonoBehaviour {
             SlideWalk();
         }
         else if(entityTag.HasTag("Procrastinator")) {
-            //TODO: add Procrastinator script
+            ProcrastinateWalk();
         }
         else {
             SimpleWalk();
@@ -110,6 +111,18 @@ public class PlayerMovement : MonoBehaviour {
             if(counter > 50) {
                 return;
             }
+        }
+    }
+
+    private void ProcrastinateWalk() {
+        if(procrastinatorStoredMove.Equals(Vector2.zero)) {
+            procrastinatorStoredMove = InputToDirection();
+        }
+        else {
+            MoveInDirection(procrastinatorStoredMove);
+            MoveInDirection(InputToDirection());
+
+            procrastinatorStoredMove = Vector2.zero;
         }
     }
 
