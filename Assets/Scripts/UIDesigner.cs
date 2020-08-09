@@ -19,6 +19,6 @@ public class UIDesigner : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        textBox.text = string.Format("Turns: {0}", manager.playerLivesLeft);
+        textBox.text = string.Format("Your HP: {0}", manager.playerLivesLeft);
     }
 }

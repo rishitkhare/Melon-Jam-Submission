@@ -70,8 +70,9 @@ public class GridMovement : MonoBehaviour
         }
     }
 
-    //checks if current space is not occupied. Is only called from the Move() methods
-    private bool IsValidMovement(int newX, int newY) {
+    //checks if a grid space is not occupied. Ignores the gameObject it is called from
+    //checks three things: enemy collision, player collision, and wall collision.
+    public bool IsValidMovement(int newX, int newY) {
         
         //check enemy collisions
         GameObject[] allEntities = manager.GetEnemyList();

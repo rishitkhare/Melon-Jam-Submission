@@ -40,13 +40,75 @@ public class PlayerMovement : MonoBehaviour {
 
     private void Move() {
         if(entityTag.HasTag("Skateboarder")) {
-            //TODO: add Skateboarder script
+            /*
+             * Pseudocode:
+             * while direction.isValid {
+             * 
+             * move(direction);
+             * 
+             * }
+             */
+            SlideWalk();
         }
         else if(entityTag.HasTag("Procrastinator")) {
             //TODO: add Procrastinator script
         }
         else {
             SimpleWalk();
+        }
+    }
+
+    private void SlideWalk() {
+        Vector2 slideDirection = InputToDirection();
+
+        //uses the position before moving to determine whether or not object has hit a wall.
+        //it will then stop sliding.
+        Vector2Int oldPosition = new Vector2Int(gridMovement.x, gridMovement.y);
+        MoveInDirection(slideDirection);
+        int counter = 0;
+        while (!oldPosition.Equals(new Vector2Int(gridMovement.x, gridMovement.y))) {
+            MoveInDirection(slideDirection);
+
+            //avoids infinite loop
+            counter++;
+            if(counter > 50) {
+                return;
+            }
+        }
+    }
+
+    private Vector2 InputToDirection() {
+        if (Input.GetKeyDown("up")) {
+            return Vector2.up;
+        }
+        if (Input.GetKeyDown("down")) {
+            return Vector2.down;
+        }
+        if (Input.GetKeyDown("left")) {
+            return Vector2.left;
+        }
+        if (Input.GetKeyDown("right")) {
+            return Vector2.right;
+        }
+
+        return Vector2.zero;
+    }
+
+    private void MoveInDirection(Vector2 direction) {
+        if(direction.Equals(Vector2.up)) {
+            gridMovement.MoveY(1);
+        }
+        else if (direction.Equals(Vector2.down)) {
+            gridMovement.MoveY(-1);
+        }
+        else if (direction.Equals(Vector2.left)) {
+            gridMovement.MoveX(-1);
+        }
+        else if (direction.Equals(Vector2.right)) {
+            gridMovement.MoveX(1);
+        }
+        else {
+            throw new System.ArgumentException("Non-cardinal direction:");
         }
     }
 
