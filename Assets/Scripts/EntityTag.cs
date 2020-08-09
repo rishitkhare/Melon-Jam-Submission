@@ -8,10 +8,13 @@ public class EntityTag : MonoBehaviour
     GameManager manager;
 
     public static readonly List<string> possibleTags = new List<string>()
-    {"Goose", "Generic", "Old", "Germaphobe", "Procrastinator", "Skateboarder"};
+    {"Goose", "Generic", "Old", "Germaphobe", "Procrastinator", "Skateboarder", "Spitter"};
 
     void Start() {
         manager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
+        if(!possibleTags.Contains(myTag)) {
+            myTag = "Generic";
+        }
     }
 
     public bool HasTag(string givenTag) {
@@ -19,21 +22,29 @@ public class EntityTag : MonoBehaviour
     }
 
     public void SetTag(string givenTag) {
-        myTag = (givenTag);
+        if(possibleTags.Contains(givenTag)) {
+            myTag = (givenTag);
+        }
+        else {
+            myTag = "Generic";
+        }
     }
 
     public void GivePlayerControl() {
         //Give player control over the object
         gameObject.AddComponent<PlayerMovement>();
 
-        //kill the old object
-        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().Die();
-
-        //reset turn count
-        manager.SetPlayerLives(GetNewTurnCount());
-
-        //Tag new object with Player
+        //Tag new object with Player and remove tag from old player
+        GameObject oldPlayer = GameObject.FindGameObjectWithTag("Player");
+        oldPlayer.tag = "Untagged";
         gameObject.tag = "Player";
+
+        //kill the old object
+        oldPlayer.GetComponent<PlayerMovement>().Die();
+
+        //reset turn count and update manager's Player object reference
+        manager.UpdatePlayerReference();
+        manager.SetPlayerLives(GetNewTurnCount());
     }
 
     public int GetNewTurnCount() {
