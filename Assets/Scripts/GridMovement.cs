@@ -90,8 +90,11 @@ public class GridMovement : MonoBehaviour
 
         //if collides with Enemy, shift hosts
         if(collider != null) {
-            if(manager.playerLivesLeft == 1 && ((!IsGermaphobe(collider)) || GermaphobeCollisionIsFatal(collider))) {
-                collider.GetComponent<EntityTag>().GivePlayerControl();
+            if(manager.playerLivesLeft == 1) {
+                bool hasMask = IsGermaphobe(collider);
+                if((!hasMask) || (hasMask && (!MaskFacingCorrectWay(collider)))) {
+                    collider.GetComponent<EntityTag>().GivePlayerControl();
+                }
             }
             return false;
         }
@@ -124,7 +127,7 @@ public class GridMovement : MonoBehaviour
     private bool IsGermaphobe(GameObject enemy) {
         return enemy.GetComponent<EntityTag>().HasTag("Germaphobe");
     }
-    private bool GermaphobeCollisionIsFatal(GameObject enemy) {
+    private bool MaskFacingCorrectWay(GameObject enemy) {
         return enemy.GetComponent<GridMovement>().direction.Equals(this.direction * -1);
     }
 

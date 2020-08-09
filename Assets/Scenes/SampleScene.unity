@@ -1853,7 +1853,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64deafbacd0c84453b2a1fb8c0782f42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myTag: Spitter
+  myTag: Germaphobe
 --- !u!212 &1738836204
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1918,7 +1918,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   x: 0
   y: 0
-  direction: {x: 0, y: -1}
+  direction: {x: -1, y: 0}
 --- !u!1 &1975117063
 GameObject:
   m_ObjectHideFlags: 0
