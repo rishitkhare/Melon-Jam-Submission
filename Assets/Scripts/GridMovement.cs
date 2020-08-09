@@ -7,6 +7,7 @@ public class GridMovement : MonoBehaviour
 {
     public int x;
     public int y;
+    public Vector2 direction = Vector2.down;
     GridLayout gridLayout;
 
     Collider2D wallCollider;
@@ -34,7 +35,17 @@ public class GridMovement : MonoBehaviour
         transform.position = gridLayout.CellToWorld(new Vector3Int(x, y, 0));
     }
 
-    public Vector2Int getPositionVector2Int() {
+    public Vector3 GetWorldTransform(int x, int y) {
+        return MidpointOfCell(gridLayout.CellToWorld(new Vector3Int(x, y, 0)));
+    }
+    public Vector3 GetWorldTransform() {
+        return GetWorldTransform(this.x, this.y);
+    }
+    public Vector3 GetWorldTransform(Vector2Int point) {
+        return GetWorldTransform(point.x, point.y);
+    }
+
+    public Vector2Int GetPositionVector2Int() {
         return new Vector2Int(this.x, this.y);
     }
 
@@ -75,22 +86,19 @@ public class GridMovement : MonoBehaviour
     public bool IsValidMovement(int newX, int newY) {
         
         //check enemy collisions
-        GameObject[] allEntities = manager.GetEnemyList();
-        GameObject collider = CheckArrayCollision(allEntities, newX, newY);
-        bool collided = (collider != null);
+        GameObject collider = CheckArrayCollision(manager.GetEnemyList(), newX, newY);
 
         //if collides with Enemy, shift hosts
         if(collider != null) {
-            if(manager.playerLivesLeft == 1) {
+            if(manager.playerLivesLeft == 1 && ((!IsGermaphobe(collider)) || GermaphobeCollisionIsFatal(collider))) {
                 collider.GetComponent<EntityTag>().GivePlayerControl();
             }
             return false;
         }
 
         //check player collisions
-        allEntities = manager.GetPlayerList();
 
-        if(CheckArrayCollision(allEntities, newX, newY) != null) {
+        if(CheckArrayCollision(manager.GetPlayer(), newX, newY) != null) {
             return false;
         }
 
@@ -111,6 +119,15 @@ public class GridMovement : MonoBehaviour
         return true;
     }
 
+    //checks the gameObject to see if it is tagged "Germaphobe"
+    //and then checks if the mask will protect it
+    private bool IsGermaphobe(GameObject enemy) {
+        return enemy.GetComponent<EntityTag>().HasTag("Germaphobe");
+    }
+    private bool GermaphobeCollisionIsFatal(GameObject enemy) {
+        return enemy.GetComponent<GridMovement>().direction.Equals(this.direction * -1);
+    }
+
     //returns true if the given objects are colliding
     private GameObject CheckArrayCollision(GameObject[] allEntities, float newX, float newY) {
         foreach (GameObject entity in allEntities) {
@@ -124,6 +141,14 @@ public class GridMovement : MonoBehaviour
         }
 
         return null;
+    }
+
+    //overload of CheckArrayCollision for single gameObject
+    private GameObject CheckArrayCollision(GameObject entity, float newX, float newY) {
+        GameObject[] allEntities = new GameObject[1];
+        allEntities[0] = entity;
+
+        return CheckArrayCollision(allEntities, newX, newY);
     }
 
     private bool CheckWallCollision(Vector2 point, Collider2D collidable) {

@@ -3,11 +3,14 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
     GameObject[] entities;
-    GameObject[] player;
+    GameObject player;
+    GridMovement playerLocation;
+    GameObject winTrigger;
     public GameObject wall;
     public GameObject water;
     Collider2D wallCollider;
     Collider2D waterCollider;
+    Collider2D winCollider;
 
     public int playerLivesLeft;
 
@@ -15,8 +18,10 @@ public class GameManager : MonoBehaviour {
 
     void Start() {
         playerLivesLeft = 5;
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
+        player = GameObject.FindGameObjectWithTag("Player");
+        winTrigger = GameObject.FindGameObjectWithTag("WinTrigger");
+        winCollider = winTrigger.GetComponent<Collider2D>();
+        playerLocation = player.GetComponent<GridMovement>();
     }
 
     // Start is called before first frame update
@@ -25,11 +30,35 @@ public class GameManager : MonoBehaviour {
         waterCollider = water.GetComponent<Collider2D>();
     }
 
+
+    //TODO: Add screen transitions
+    public void PlayerLose() {
+        //reload current scene
+        Debug.Log("Aw... Lose!");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void PlayerWin() {
+        //load next scene
+        Debug.Log("That's a win!");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+
     public void DecrementLivesLeft() {
+        GetPlayer();
         playerLivesLeft--;
         if(playerLivesLeft < 1) {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            if(PlayerTouchingWinTrigger()) {
+                PlayerWin();
+            }
+            else {
+                PlayerLose();
+            }
         }
+    }
+
+    public bool PlayerTouchingWinTrigger() {
+        return winCollider.OverlapPoint(playerLocation.GetWorldTransform());
     }
 
     public void SetPlayerLives(int reset) {
@@ -42,10 +71,15 @@ public class GameManager : MonoBehaviour {
         return entities;
     }
 
-    public GameObject[] GetPlayerList() {
-        player = GameObject.FindGameObjectsWithTag("Player");
+    public GameObject GetPlayer() {
+
 
         return player;
+    }
+
+    public void UpdatePlayerReference() {
+        player = GameObject.FindGameObjectWithTag("Player");
+        playerLocation = player.GetComponent<GridMovement>();
     }
 
     public Collider2D GetWallCollider() {

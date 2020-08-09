@@ -10,6 +10,8 @@ public class PlayerMovement : MonoBehaviour {
     GameManager manager;
     EntityTag entityTag;
 
+    //private Vector2 direction;
+
     // Start is called before the first frame update
     void Start() {
         gridMovement = gameObject.GetComponent<GridMovement>();
@@ -21,11 +23,17 @@ public class PlayerMovement : MonoBehaviour {
     void Update() {
 
         if (GetNumberOfDirectionKeysPressed() == 1) {
+            
             Vector2Int oldPosition = new Vector2Int(gridMovement.x, gridMovement.y);
-            Move();
+            if(manager.playerLivesLeft == 1 && Input.GetKeyDown("space")) {
+                Sneeze();
+            }
+            else {
+                Move();
+            }
 
             //if you moved, host loses health
-            if(!oldPosition.Equals(gridMovement.getPositionVector2Int())) {
+            if (!oldPosition.Equals(gridMovement.GetPositionVector2Int())) {
                 manager.DecrementLivesLeft();
             }
         }
@@ -37,17 +45,45 @@ public class PlayerMovement : MonoBehaviour {
         //Destroy(gameObject);
     }
 
+    public void Sneeze() {
+        Debug.Log("Achoo!");
+        int intensity = 2;
+
+        if (entityTag.HasTag("Spitter")) {
+            intensity = 4;
+        }
+
+        Vector2Int sneezeOrigin = new Vector2Int(gridMovement.x, gridMovement.y);
+
+        for(int i = 0; i < intensity; i ++) {
+            MoveInDirection(gridMovement.direction);
+
+            if(manager.PlayerTouchingWinTrigger()) {
+                //move player back
+                gridMovement.x = sneezeOrigin.x;
+                gridMovement.y = sneezeOrigin.y;
+
+                //end game
+                manager.PlayerWin();
+                return;
+            }
+        }
+
+        gridMovement.x = sneezeOrigin.x;
+        gridMovement.y = sneezeOrigin.y;
+
+        //
+        if (manager.playerLivesLeft == 1) {
+            manager.PlayerLose();
+        }
+    }
 
     private void Move() {
-        if(entityTag.HasTag("Skateboarder")) {
-            /*
-             * Pseudocode:
-             * while direction.isValid {
-             * 
-             * move(direction);
-             * 
-             * }
-             */
+        //sets direction
+        gridMovement.direction = InputToDirection();
+
+        //player moves differently depending on host
+        if (entityTag.HasTag("Skateboarder")) {
             SlideWalk();
         }
         else if(entityTag.HasTag("Procrastinator")) {
@@ -75,6 +111,10 @@ public class PlayerMovement : MonoBehaviour {
                 return;
             }
         }
+    }
+
+    private Vector2Int ConvertToVectorInt(Vector2 vector2) {
+        return (new Vector2Int((int) vector2.x, (int) vector2.y));
     }
 
     private Vector2 InputToDirection() {
@@ -129,6 +169,7 @@ public class PlayerMovement : MonoBehaviour {
 
     private int GetNumberOfDirectionKeysPressed() {
         return Convert.ToInt32(Input.GetKeyDown("up")) + Convert.ToInt32(Input.GetKeyDown("down"))
-             + Convert.ToInt32(Input.GetKeyDown("left")) + Convert.ToInt32(Input.GetKeyDown("right"));
+             + Convert.ToInt32(Input.GetKeyDown("left")) + Convert.ToInt32(Input.GetKeyDown("right"))
+             + Convert.ToInt32(Input.GetKeyDown("space"));
     }
 }
