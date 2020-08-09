@@ -4,32 +4,53 @@ using UnityEngine;
 using System;
 
 [RequireComponent(typeof(GridMovement))]
+[RequireComponent(typeof(EntityTag))]
 public class PlayerMovement : MonoBehaviour {
     GridMovement gridMovement;
-
-    //Event for each turn
-    public event EventHandler OnPlayerMove;
+    GameManager manager;
+    EntityTag entityTag;
 
     // Start is called before the first frame update
     void Start() {
         gridMovement = gameObject.GetComponent<GridMovement>();
+        manager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
+        entityTag = gameObject.GetComponent<EntityTag>();
     }
 
     // Update is called once per frame
     void Update() {
 
         if (GetNumberOfDirectionKeysPressed() == 1) {
+            Vector2Int oldPosition = new Vector2Int(gridMovement.x, gridMovement.y);
             Move();
-            OnPlayerMove?.Invoke(this, EventArgs.Empty); //broadcasts 'turn' to all AI for their motions
+
+            //if you moved, host loses health
+            if(!oldPosition.Equals(gridMovement.getPositionVector2Int())) {
+                manager.DecrementLivesLeft();
+            }
         }
             
     }
 
     public void Die() {
-        Destroy(gameObject);
+        this.enabled = false;
+        //Destroy(gameObject);
     }
 
+
     private void Move() {
+        if(entityTag.HasTag("Skateboarder")) {
+            //TODO: add Skateboarder script
+        }
+        else if(entityTag.HasTag("Procrastinator")) {
+            //TODO: add Procrastinator script
+        }
+        else {
+            SimpleWalk();
+        }
+    }
+
+    private void SimpleWalk() {
         if (Input.GetKeyDown("up")) {
             gridMovement.MoveY(1);
         }

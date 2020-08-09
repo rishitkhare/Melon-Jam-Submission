@@ -2,28 +2,40 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(BoxCollider2D))]
+[RequireComponent(typeof(EntityTag))]
 public class GridMovement : MonoBehaviour
 {
     public int x;
     public int y;
     GridLayout gridLayout;
-    GameObject wallTilemap;
+
     Collider2D wallCollider;
+    Collider2D waterCollider;
+    
+
     GameManager manager;
+    EntityTag entityTag;
 
     void Start() {
+        //position is set to nearest gridspace
         x = (int)transform.position.x;
         y = (int)transform.position.y;
+
+        //initializing components
         gridLayout = transform.parent.GetComponentInParent<GridLayout>();
-        wallTilemap = GameObject.FindGameObjectWithTag("Wall");
         manager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
         wallCollider = manager.GetWallCollider();
+        waterCollider = manager.GetWaterCollider();
+        entityTag = gameObject.GetComponent<EntityTag>();
     }
 
     void Update() {
         //takes the grid position and updates based on the parent grid object
         transform.position = gridLayout.CellToWorld(new Vector3Int(x, y, 0));
+    }
+
+    public Vector2Int getPositionVector2Int() {
+        return new Vector2Int(this.x, this.y);
     }
 
     //implements Pythagorean theorem to calculate positive distance between two grid entities
@@ -63,42 +75,63 @@ public class GridMovement : MonoBehaviour
         
         //check enemy collisions
         GameObject[] allEntities = manager.GetEnemyList();
-        bool collided = CheckArrayCollision(allEntities, newX, newY);
+        GameObject collider = CheckArrayCollision(allEntities, newX, newY);
+        bool collided = (collider != null);
+
+        //if collides with Enemy, shift hosts
+        if(collider != null) {
+            if(manager.playerLivesLeft == 1) {
+                collider.GetComponent<EntityTag>().GivePlayerControl();
+            }
+            return false;
+        }
 
         //check player collisions
         allEntities = manager.GetPlayerList();
 
-        collided = collided || CheckArrayCollision(allEntities, newX, newY);
+        if(CheckArrayCollision(allEntities, newX, newY) != null) {
+            return false;
+        }
+
+        //this is the point that the object is trying to move to
+        Vector2 newWorldPoint = MidpointOfCell(gridLayout.CellToWorld(new Vector3Int(newX, newY, 0)));
 
         //check wall collisions
-        collided = collided || CheckWallCollision(gridLayout.CellToWorld(new Vector3Int(newX, newY, 0)));
+        if(CheckWallCollision(newWorldPoint, wallCollider)) {
+            return false;
+        }
 
-        //if collided is true motion is not valid (and vice versa)
-        return !collided;
+        //check water collisions (if not a goose)
+        if((!entityTag.HasTag("Goose")) && CheckWallCollision(newWorldPoint, waterCollider)) {
+            return false;
+        }
+
+        //nothing has collided, movement is vaild
+        return true;
     }
 
     //returns true if the given objects are colliding
-    private bool CheckArrayCollision(GameObject[] allEntities, float newX, float newY) {
+    private GameObject CheckArrayCollision(GameObject[] allEntities, float newX, float newY) {
         foreach (GameObject entity in allEntities) {
             if(entity != gameObject) {
                 GridMovement other = entity.GetComponent<GridMovement>();
 
                 if (other.x == newX && other.y == newY) {
-                    return true;
+                    return entity;
                 }
             }
         }
 
-        return false;
+        return null;
     }
 
-    private bool CheckWallCollision(Vector2 point) {
+    private bool CheckWallCollision(Vector2 point, Collider2D collidable) {
         //check if the given point is inside a wall
-        Debug.DrawLine(transform.position, point);
-        bool answer = wallCollider.OverlapPoint(point);
-        Debug.Log(answer);
+        bool answer = collidable.OverlapPoint(point);
         return answer;
     }
 
-    
+    private Vector3 MidpointOfCell(Vector3 gridSpace) {
+        return new Vector3(gridSpace.x + (gridLayout.cellSize.x/2f), gridSpace.y + (gridLayout.cellSize.y/2f), 0);
+    }
 }
