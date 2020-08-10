@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
     GameObject[] entities;
+    GameObject[] dead;
     GameObject player;
     GridMovement playerLocation;
     GameObject winTrigger;
@@ -30,6 +31,16 @@ public class GameManager : MonoBehaviour {
         waterCollider = water.GetComponent<Collider2D>();
     }
 
+    void Update()
+    {
+        if(Input.GetKeyDown("r")) {
+            this.PlayerLose();
+        }
+        if(Input.GetKeyDown("s"))
+        {
+            this.PlayerWin();
+        }
+    }
 
     //TODO: Add screen transitions
     public void PlayerLose() {
@@ -58,7 +69,7 @@ public class GameManager : MonoBehaviour {
     }
 
     public bool PlayerTouchingWinTrigger() {
-        return winCollider.OverlapPoint(playerLocation.GetWorldTransform());
+        return winCollider.OverlapPoint(playerLocation.GetWorldMidPointTransform());
     }
 
     public void SetPlayerLives(int reset) {
@@ -69,6 +80,13 @@ public class GameManager : MonoBehaviour {
         entities = GameObject.FindGameObjectsWithTag("Enemy");
 
         return entities;
+    }
+
+    public GameObject[] GetDeadList()
+    {
+        dead = GameObject.FindGameObjectsWithTag("Dead");
+
+        return dead;
     }
 
     public GameObject GetPlayer() {

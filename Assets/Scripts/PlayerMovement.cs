@@ -7,41 +7,51 @@ using System;
 [RequireComponent(typeof(EntityTag))]
 public class PlayerMovement : MonoBehaviour {
     GridMovement gridMovement;
+    AnimateGridMovement gridAnimator;
     GameManager manager;
     EntityTag entityTag;
+    bool isDead;
 
-    private Vector2 procrastinatorStoredMove;
+    //only used if Player is procrastinator
+    private Vector2Int procrastinatorStoredMove;
 
     // Start is called before the first frame update
-    void Start() {
-        procrastinatorStoredMove = Vector2.zero;
+    void Awake() {
+        procrastinatorStoredMove = Vector2Int.zero;
         gridMovement = gameObject.GetComponent<GridMovement>();
+        gridAnimator = gameObject.GetComponent<AnimateGridMovement>();
         manager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
         entityTag = gameObject.GetComponent<EntityTag>();
     }
 
+
     // Update is called once per frame
     void Update() {
 
-        if (GetNumberOfDirectionKeysPressed() == 1) {
+        //does not take input until previous motion is finished
+        if (GetNumberOfDirectionKeysPressed() == 1 && !gridAnimator.GetIsAnimate()) {
             
-            Vector2Int oldPosition = new Vector2Int(gridMovement.x, gridMovement.y);
             if(manager.playerLivesLeft == 1 && Input.GetKeyDown("space")) {
                 Sneeze();
             }
             else {
                 Move();
             }
-
-            //if you moved, host loses health
-            if (!oldPosition.Equals(gridMovement.GetPositionVector2Int())) {
-                manager.DecrementLivesLeft();
-            }
         }
             
     }
 
+    public bool GetIsDead() {
+        return isDead;
+    }
+
+    public void SetIsDead(bool value) {
+        isDead = value;
+    }
+
     public void Die() {
+        gridAnimator.DeathAnimation();
+        this.isDead = true;
         this.enabled = false;
         //Destroy(gameObject);
     }
@@ -54,24 +64,12 @@ public class PlayerMovement : MonoBehaviour {
             intensity = 4;
         }
 
-        Vector2Int sneezeOrigin = new Vector2Int(gridMovement.x, gridMovement.y);
+        Vector2Int sneeze = new Vector2Int(gridMovement.x, gridMovement.y);
 
         for(int i = 0; i < intensity; i ++) {
-            MoveInDirection(gridMovement.direction);
-
-            if(manager.PlayerTouchingWinTrigger()) {
-                //move player back
-                gridMovement.x = sneezeOrigin.x;
-                gridMovement.y = sneezeOrigin.y;
-
-                //end game
-                manager.PlayerWin();
-                return;
-            }
+            sneeze += ConvertToVectorInt(gridMovement.direction);
+            gridMovement.SneezeOnBlock(sneeze);
         }
-
-        gridMovement.x = sneezeOrigin.x;
-        gridMovement.y = sneezeOrigin.y;
 
         //
         if (manager.playerLivesLeft == 1) {
@@ -86,44 +84,94 @@ public class PlayerMovement : MonoBehaviour {
         //player moves differently depending on host
         if (entityTag.HasTag("Skateboarder")) {
             SlideWalk();
+            gridAnimator.AddToAnimateQueue(gridMovement.GetPositionVector2Int());
         }
         else if(entityTag.HasTag("Procrastinator")) {
             ProcrastinateWalk();
         }
         else {
             SimpleWalk();
+            gridAnimator.AddToAnimateQueue(gridMovement.GetPositionVector2Int());
         }
+
+        gridAnimator.TriggerWalk();
     }
 
     private void SlideWalk() {
+        Vector2Int beforeMove = new Vector2Int(gridMovement.x, gridMovement.y);
+
         Vector2 slideDirection = InputToDirection();
+        Debug.Log(string.Format("X: {0} Y: {1}", beforeMove.x, beforeMove.y));
 
         //uses the position before moving to determine whether or not object has hit a wall.
         //it will then stop sliding.
         Vector2Int oldPosition = new Vector2Int(gridMovement.x, gridMovement.y);
         MoveInDirection(slideDirection);
         int counter = 0;
-        while (!oldPosition.Equals(new Vector2Int(gridMovement.x, gridMovement.y))) {
+        bool hasCollided = false;
+        while (! (oldPosition.Equals(new Vector2Int(gridMovement.x, gridMovement.y)))) {
+            oldPosition = new Vector2Int(gridMovement.x, gridMovement.y);
+            hasCollided = gridMovement.isEnemyHere(oldPosition + ConvertToVectorInt(slideDirection));
             MoveInDirection(slideDirection);
+
+            
 
             //avoids infinite loop
             counter++;
             if(counter > 50) {
+                Debug.Log("INFINITE!!!");
                 return;
+            }
+        }
+
+        //if you moved, host loses health
+        Debug.Log(hasCollided);
+        if ((!beforeMove.Equals(gridMovement.GetPositionVector2Int()))) {
+            if(!(hasCollided)) {
+                manager.DecrementLivesLeft();
+            }
+            else {
+                if(!isDead) {
+                    manager.DecrementLivesLeft();
+                }
             }
         }
     }
 
     private void ProcrastinateWalk() {
-        if(procrastinatorStoredMove.Equals(Vector2.zero)) {
-            procrastinatorStoredMove = InputToDirection();
+
+        //if
+        if(procrastinatorStoredMove.Equals(Vector2Int.zero)) {
+            //set the move if valid
+            procrastinatorStoredMove = ConvertToVectorInt(InputToDirection());
+            Vector2Int nextPosition = gridMovement.GetPositionVector2Int() + procrastinatorStoredMove;
+            if(!gridMovement.IsValidMovement(nextPosition.x, nextPosition.y, false)) {
+                procrastinatorStoredMove = Vector2Int.zero;
+            }
         }
         else {
-            MoveInDirection(procrastinatorStoredMove);
-            MoveInDirection(InputToDirection());
+            //check if the 2nd move is valid
+            Vector2Int secondMove = ConvertToVectorInt(InputToDirection());
+            Vector2Int nextPosition = gridMovement.GetPositionVector2Int() + procrastinatorStoredMove + secondMove;
 
-            procrastinatorStoredMove = Vector2.zero;
+            bool checkValid = gridMovement.IsValidMovement(nextPosition.x, nextPosition.y, manager.playerLivesLeft == 1);
+
+            if (!checkValid) {
+                procrastinatorStoredMove = Vector2Int.zero;
+                return;
+            }
+
+            //execute previous move and next move
+            MoveInDirection(procrastinatorStoredMove);
+            gridAnimator.AddToAnimateQueue(gridMovement.GetPositionVector2Int());
+            MoveInDirection(secondMove);
+            gridAnimator.AddToAnimateQueue(gridMovement.GetPositionVector2Int());
+
+            procrastinatorStoredMove = Vector2Int.zero;
+
+            manager.DecrementLivesLeft();
         }
+
     }
 
     private Vector2Int ConvertToVectorInt(Vector2 vector2) {
@@ -166,6 +214,8 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     private void SimpleWalk() {
+        Vector2Int oldPosition = new Vector2Int(gridMovement.x, gridMovement.y);
+
         if (Input.GetKeyDown("up")) {
             gridMovement.MoveY(1);
         }
@@ -177,6 +227,11 @@ public class PlayerMovement : MonoBehaviour {
         }
         if (Input.GetKeyDown("right")) {
             gridMovement.MoveX(1);    
+        }
+
+        //if you moved, host loses health
+        if (!oldPosition.Equals(gridMovement.GetPositionVector2Int())) {
+            manager.DecrementLivesLeft();
         }
     }
 

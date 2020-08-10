@@ -36,7 +36,7 @@ public class EntityTag : MonoBehaviour
 
         //Tag new object with Player and remove tag from old player
         GameObject oldPlayer = GameObject.FindGameObjectWithTag("Player");
-        oldPlayer.tag = "Untagged";
+        oldPlayer.tag = "Dead";
         gameObject.tag = "Player";
 
         //kill the old object
@@ -50,9 +50,6 @@ public class EntityTag : MonoBehaviour
     public int GetNewTurnCount() {
         if(myTag.Equals("Old")) {
             return 3;
-        }
-        else if(myTag.Equals("Procrastinator")) {
-            return 10;
         }
         else {
             return 5;

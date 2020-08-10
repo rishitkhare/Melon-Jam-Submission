@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(EntityTag))]
+//[RequireComponent(typeof(AnimateGriddMovement))]
 public class GridMovement : MonoBehaviour
 {
     public int x;
@@ -17,32 +18,43 @@ public class GridMovement : MonoBehaviour
     GameManager manager;
     EntityTag entityTag;
 
-    void Start() {
+    void Awake() {
         //position is set to nearest gridspace
-        x = (int)transform.position.x;
-        y = (int)transform.position.y;
+        x = (int)Mathf.RoundToInt(transform.position.x);
+        y = (int)Mathf.RoundToInt(transform.position.y);
 
         //initializing components
         gridLayout = transform.parent.GetComponentInParent<GridLayout>();
         manager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
+        entityTag = gameObject.GetComponent<EntityTag>();
+    }
+
+
+    void Start() {
         wallCollider = manager.GetWallCollider();
         waterCollider = manager.GetWaterCollider();
-        entityTag = gameObject.GetComponent<EntityTag>();
     }
 
     void Update() {
         //takes the grid position and updates based on the parent grid object
-        transform.position = gridLayout.CellToWorld(new Vector3Int(x, y, 0));
+        //transform.position = gridLayout.CellToWorld(new Vector3Int(x, y, 0));
     }
 
-    public Vector3 GetWorldTransform(int x, int y) {
+    public Vector3 ToWorldTransform() {
+        return gridLayout.CellToWorld(new Vector3Int(x, y, 0));
+    }
+    public Vector3 ToWorldTransform(Vector2Int given) {
+        return gridLayout.CellToWorld(new Vector3Int(given.x, given.y, 0));
+    }
+
+    public Vector3 GetWorldMidPointTransform(int x, int y) {
         return MidpointOfCell(gridLayout.CellToWorld(new Vector3Int(x, y, 0)));
     }
-    public Vector3 GetWorldTransform() {
-        return GetWorldTransform(this.x, this.y);
+    public Vector3 GetWorldMidPointTransform() {
+        return GetWorldMidPointTransform(this.x, this.y);
     }
-    public Vector3 GetWorldTransform(Vector2Int point) {
-        return GetWorldTransform(point.x, point.y);
+    public Vector3 GetWorldMidPointTransform(Vector2Int point) {
+        return GetWorldMidPointTransform(point.x, point.y);
     }
 
     public Vector2Int GetPositionVector2Int() {
@@ -70,32 +82,61 @@ public class GridMovement : MonoBehaviour
     }
 
     public void MoveY(int amount) {
-        if (IsValidMovement(x, y + amount)) {
+        if (IsValidMovement(x, y + amount, true)) {
             y += amount;
         }
     }
 
     public void MoveX(int amount) {
-        if (IsValidMovement(x + amount, y)) {
+        if (IsValidMovement(x + amount, y, true)) {
             x += amount;
+        }
+    }
+
+    public void SneezeOnBlock(Vector2Int block) {
+        GameObject enemyCollider = CheckArrayCollision(manager.GetEnemyList(), block.x, block.y);
+        if(enemyCollider != null) {
+            bool hasMask = IsGermaphobe(enemyCollider);
+            if((!hasMask) || (hasMask && (!MaskFacingCorrectWay(enemyCollider))))
+            {
+                enemyCollider.GetComponent<EntityTag>().GivePlayerControl();
+            }
+        }
+    }
+
+    public bool isEnemyHere(Vector2Int block) {
+        GameObject enemyCollider = CheckArrayCollision(manager.GetEnemyList(), block.x, block.y);
+        if(enemyCollider != null) {
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 
     //checks if a grid space is not occupied. Ignores the gameObject it is called from
     //checks three things: enemy collision, player collision, and wall collision.
-    public bool IsValidMovement(int newX, int newY) {
+    //client of method can also prevent the method from automatically shifting hosts
+    public bool IsValidMovement(int newX, int newY, bool isShiftHost) {
         
         //check enemy collisions
-        GameObject collider = CheckArrayCollision(manager.GetEnemyList(), newX, newY);
+        GameObject enemyCollider = CheckArrayCollision(manager.GetEnemyList(), newX, newY);
 
         //if collides with Enemy, shift hosts
-        if(collider != null) {
-            if(manager.playerLivesLeft == 1) {
-                bool hasMask = IsGermaphobe(collider);
-                if((!hasMask) || (hasMask && (!MaskFacingCorrectWay(collider)))) {
-                    collider.GetComponent<EntityTag>().GivePlayerControl();
+        if(enemyCollider != null) {
+            if(manager.playerLivesLeft == 1 && isShiftHost) {
+                bool hasMask = IsGermaphobe(enemyCollider);
+                if((!hasMask) || (hasMask && (!MaskFacingCorrectWay(enemyCollider)))) {
+                    enemyCollider.GetComponent<EntityTag>().GivePlayerControl();
                 }
             }
+            return false;
+        }
+
+        //check dead people collision
+        GameObject deadCollider = CheckArrayCollision(manager.GetDeadList(), newX, newY);
+        if(deadCollider != null) {
             return false;
         }
 
