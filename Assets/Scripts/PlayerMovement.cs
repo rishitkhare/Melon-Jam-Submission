@@ -9,6 +9,8 @@ public class PlayerMovement : MonoBehaviour {
     GridMovement gridMovement;
     AnimateGridMovement gridAnimator;
     GameManager manager;
+    GameObject SoundSystem;
+    BGMusic speaker;
     EntityTag entityTag;
     bool isDead;
 
@@ -22,6 +24,8 @@ public class PlayerMovement : MonoBehaviour {
         gridAnimator = gameObject.GetComponent<AnimateGridMovement>();
         manager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
         entityTag = gameObject.GetComponent<EntityTag>();
+        SoundSystem = GameObject.FindGameObjectWithTag("SoundSystem");
+        speaker = SoundSystem.GetComponent<BGMusic>();
     }
 
 

@@ -1,5 +1,5 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/GameManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/BGMusic.cs">
     <Files>
       <File FileName="Assets/Scripts/PlayerMovement.cs" Line="157" Column="122" />
       <File FileName="Assets/Scripts/GameManager.cs" Line="39" Column="14" />
@@ -7,6 +7,7 @@
       <File FileName="Assets/Scripts/EntityTag.cs" />
       <File FileName="Assets/Scripts/UIDesigner.cs" />
       <File FileName="Assets/Scripts/AnimateGridMovement.cs" />
+      <File FileName="Assets/Scripts/BGMusic.cs" Line="4" Column="16" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
