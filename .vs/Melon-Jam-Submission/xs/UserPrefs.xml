@@ -1,13 +1,14 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/BGMusic.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/PlayerMovement.cs">
     <Files>
-      <File FileName="Assets/Scripts/PlayerMovement.cs" Line="157" Column="122" />
-      <File FileName="Assets/Scripts/GameManager.cs" Line="39" Column="14" />
-      <File FileName="Assets/Scripts/GridMovement.cs" />
-      <File FileName="Assets/Scripts/EntityTag.cs" />
-      <File FileName="Assets/Scripts/UIDesigner.cs" />
-      <File FileName="Assets/Scripts/AnimateGridMovement.cs" />
-      <File FileName="Assets/Scripts/BGMusic.cs" Line="4" Column="16" />
+      <File FileName="Assets/Scripts/PlayerMovement.cs" Line="88" Column="10" />
+      <File FileName="Assets/Scripts/GameManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/GridMovement.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/EntityTag.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/UIDesigner.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/AnimateGridMovement.cs" Line="2" Column="1" />
+      <File FileName="Assets/Scripts/BGMusic.cs" />
+      <File FileName="Assets/Scripts/SpaceToSneezeText.cs" Line="8" Column="40" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

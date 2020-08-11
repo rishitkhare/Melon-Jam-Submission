@@ -83,8 +83,9 @@ public class PlayerMovement : MonoBehaviour {
 
     private void Move() {
         //sets direction
-        gridMovement.direction = InputToDirection();
-
+        if(!Input.GetKeyDown("space")) {
+            gridMovement.direction = InputToDirection();
+        }
         //player moves differently depending on host
         if (entityTag.HasTag("Skateboarder")) {
             SlideWalk();
