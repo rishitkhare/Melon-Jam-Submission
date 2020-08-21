@@ -4,11 +4,11 @@
 TagManager:
   serializedVersion: 2
   tags:
+  - WinTrigger
   - Enemy
   - Wall
-  - WinTrigger
-  - Dead
   - SoundSystem
+  - Dead
   layers:
   - Default
   - TransparentFX
@@ -18,7 +18,7 @@ TagManager:
   - UI
   - 
   - 
-  - Grid
+  - 
   - 
   - 
   - 

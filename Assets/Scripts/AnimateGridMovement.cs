@@ -56,7 +56,7 @@ public class AnimateGridMovement : MonoBehaviour {
 
     // Update is called once per frame
     void LateUpdate() {
-        spriteRenderer.sortingOrder = -1 * gridPosition.y;
+        spriteRenderer.sortingOrder = -1 * (int) transform.position.y;
 
 
         //update the animator params

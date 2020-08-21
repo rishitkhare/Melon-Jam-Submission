@@ -70,7 +70,9 @@
     <Compile Include="Assets\Scripts\GridMovement.cs" />
     <Compile Include="Assets\Scripts\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\SpaceToSneezeText.cs" />
+    <Compile Include="Assets\Scripts\TopDownLayering.cs" />
     <Compile Include="Assets\Scripts\UIDesigner.cs" />
+    <Compile Include="Assets\Scripts\WinScreen.cs" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap.shader" />
@@ -624,85 +626,85 @@
       <HintPath>/Applications/Unity/Hub/Editor/2019.4.4f1/Unity.app/Contents/NetStandard/compat/2.0.0/shims/netfx/mscorlib.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline.Editor">
-      <HintPath>/Users/AdarshKhare/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+      <HintPath>/Users/AdarshKhare 1/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Animation.Runtime">
-      <HintPath>/Users/AdarshKhare/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/Unity.2D.Animation.Runtime.dll</HintPath>
+      <HintPath>/Users/AdarshKhare 1/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/Unity.2D.Animation.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.PixelPerfect.Editor">
-      <HintPath>/Users/AdarshKhare/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/Unity.2D.PixelPerfect.Editor.dll</HintPath>
+      <HintPath>/Users/AdarshKhare 1/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/Unity.2D.PixelPerfect.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VSCode.Editor">
-      <HintPath>/Users/AdarshKhare/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
+      <HintPath>/Users/AdarshKhare 1/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.SpriteShape.Editor">
-      <HintPath>/Users/AdarshKhare/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/Unity.2D.SpriteShape.Editor.dll</HintPath>
+      <HintPath>/Users/AdarshKhare 1/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/Unity.2D.SpriteShape.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>/Users/AdarshKhare/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>/Users/AdarshKhare 1/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Path.Editor">
-      <HintPath>/Users/AdarshKhare/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/Unity.2D.Path.Editor.dll</HintPath>
+      <HintPath>/Users/AdarshKhare 1/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/Unity.2D.Path.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>/Users/AdarshKhare/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+      <HintPath>/Users/AdarshKhare 1/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline">
-      <HintPath>/Users/AdarshKhare/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+      <HintPath>/Users/AdarshKhare 1/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Animation.Triangle.Runtime">
-      <HintPath>/Users/AdarshKhare/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/Unity.2D.Animation.Triangle.Runtime.dll</HintPath>
+      <HintPath>/Users/AdarshKhare 1/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/Unity.2D.Animation.Triangle.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="PsdPlugin">
-      <HintPath>/Users/AdarshKhare/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/PsdPlugin.dll</HintPath>
+      <HintPath>/Users/AdarshKhare 1/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/PsdPlugin.dll</HintPath>
     </Reference>
     <Reference Include="Unity.CollabProxy.Editor">
-      <HintPath>/Users/AdarshKhare/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
+      <HintPath>/Users/AdarshKhare 1/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Rider.Editor">
-      <HintPath>/Users/AdarshKhare/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
+      <HintPath>/Users/AdarshKhare 1/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Mathematics">
-      <HintPath>/Users/AdarshKhare/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/Unity.Mathematics.dll</HintPath>
+      <HintPath>/Users/AdarshKhare 1/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/Unity.Mathematics.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Psdimporter.Editor">
-      <HintPath>/Users/AdarshKhare/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/Unity.2D.Psdimporter.Editor.dll</HintPath>
+      <HintPath>/Users/AdarshKhare 1/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/Unity.2D.Psdimporter.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.InternalAPIEngineBridge.001">
-      <HintPath>/Users/AdarshKhare/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/Unity.InternalAPIEngineBridge.001.dll</HintPath>
+      <HintPath>/Users/AdarshKhare 1/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/Unity.InternalAPIEngineBridge.001.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Sprite.Editor">
-      <HintPath>/Users/AdarshKhare/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
+      <HintPath>/Users/AdarshKhare 1/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Common.Runtime">
-      <HintPath>/Users/AdarshKhare/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/Unity.2D.Common.Runtime.dll</HintPath>
+      <HintPath>/Users/AdarshKhare 1/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/Unity.2D.Common.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Tilemap.Editor">
-      <HintPath>/Users/AdarshKhare/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/Unity.2D.Tilemap.Editor.dll</HintPath>
+      <HintPath>/Users/AdarshKhare 1/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/Unity.2D.Tilemap.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.SpriteShape.Runtime">
-      <HintPath>/Users/AdarshKhare/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/Unity.2D.SpriteShape.Runtime.dll</HintPath>
+      <HintPath>/Users/AdarshKhare 1/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/Unity.2D.SpriteShape.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.PixelPerfect">
-      <HintPath>/Users/AdarshKhare/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/Unity.2D.PixelPerfect.dll</HintPath>
+      <HintPath>/Users/AdarshKhare 1/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/Unity.2D.PixelPerfect.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Animation.Editor">
-      <HintPath>/Users/AdarshKhare/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/Unity.2D.Animation.Editor.dll</HintPath>
+      <HintPath>/Users/AdarshKhare 1/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/Unity.2D.Animation.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Mathematics.Editor">
-      <HintPath>/Users/AdarshKhare/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/Unity.Mathematics.Editor.dll</HintPath>
+      <HintPath>/Users/AdarshKhare 1/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/Unity.Mathematics.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>/Users/AdarshKhare/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+      <HintPath>/Users/AdarshKhare 1/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Common.Editor">
-      <HintPath>/Users/AdarshKhare/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/Unity.2D.Common.Editor.dll</HintPath>
+      <HintPath>/Users/AdarshKhare 1/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/Unity.2D.Common.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.InternalAPIEditorBridge.001">
-      <HintPath>/Users/AdarshKhare/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/Unity.InternalAPIEditorBridge.001.dll</HintPath>
+      <HintPath>/Users/AdarshKhare 1/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/Unity.InternalAPIEditorBridge.001.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
-      <HintPath>/Users/AdarshKhare/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+      <HintPath>/Users/AdarshKhare 1/Desktop/stupid things (school)/ELEVENTH GRADE/Game Development/Github/Melon-Jam-Submission/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup></ItemGroup>

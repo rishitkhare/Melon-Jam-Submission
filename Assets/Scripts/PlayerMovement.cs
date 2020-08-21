@@ -82,10 +82,6 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     private void Move() {
-        //sets direction
-        if(!Input.GetKeyDown("space")) {
-            gridMovement.direction = InputToDirection();
-        }
         //player moves differently depending on host
         if (entityTag.HasTag("Skateboarder")) {
             SlideWalk();
@@ -98,8 +94,6 @@ public class PlayerMovement : MonoBehaviour {
             SimpleWalk();
             gridAnimator.AddToAnimateQueue(gridMovement.GetPositionVector2Int());
         }
-
-        gridAnimator.TriggerWalk();
     }
 
     private void SlideWalk() {
@@ -134,6 +128,10 @@ public class PlayerMovement : MonoBehaviour {
         if ((!beforeMove.Equals(gridMovement.GetPositionVector2Int()))) {
             if(!(hasCollided)) {
                 manager.DecrementLivesLeft();
+                //sets direction
+                gridMovement.direction = InputToDirection();
+
+                gridAnimator.TriggerWalk();
             }
             else {
                 if(!isDead) {
@@ -144,8 +142,7 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     private void ProcrastinateWalk() {
-
-        //if
+        //if this is not a second move
         if(procrastinatorStoredMove.Equals(Vector2Int.zero)) {
             //set the move if valid
             procrastinatorStoredMove = ConvertToVectorInt(InputToDirection());
@@ -165,6 +162,10 @@ public class PlayerMovement : MonoBehaviour {
                 procrastinatorStoredMove = Vector2Int.zero;
                 return;
             }
+
+            //sets direction
+            gridMovement.direction = InputToDirection();
+            gridAnimator.TriggerWalk();
 
             //execute previous move and next move
             MoveInDirection(procrastinatorStoredMove);
@@ -236,6 +237,10 @@ public class PlayerMovement : MonoBehaviour {
 
         //if you moved, host loses health
         if (!oldPosition.Equals(gridMovement.GetPositionVector2Int())) {
+            //sets direction
+            gridMovement.direction = InputToDirection();
+            gridAnimator.TriggerWalk();
+
             manager.DecrementLivesLeft();
         }
     }
